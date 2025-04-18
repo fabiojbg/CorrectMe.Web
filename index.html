@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="appTitle">CorrectMe Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 data-i18n="appTitle">CorrectMe Web</h1>
+        <!-- Placeholder for settings/language switch -->
+         <div class="settings-area">
+             <button id="settings-button" data-i18n="settingsButton">Settings</button>
+             <div class="language-switcher">
+                 <button id="lang-en">EN</button> | <button id="lang-pt-br">PT-BR</button>
+             </div>
+         </div>
+     </header>
+
+    <main>
+        <!-- Tabs (optional, could start with just correction) -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="correction" data-i18n="correctionTab">Correction</button>
+            <button class="tab-button" data-tab="translation" data-i18n="translationTab">Translation</button>
+        </div>
+
+        <!-- Correction Section -->
+        <section id="correction" class="tab-content active">
+            <h2 data-i18n="correctionTitle">Text Correction</h2>
+            <div class="correction-container">
+                <div class="text-area-container">
+                    <label for="user-input" data-i18n="yourTextLabel">Your Text:</label>
+                    <textarea id="user-input" rows="10" data-i18n-placeholder="userTextPlaceholder" placeholder="Enter text to correct..."></textarea>
+                </div>
+                <div class="button-container">
+                    <button id="correct-button" data-i18n="correctButtonLabel">Correct →</button>
+                    <div id="status-message" class="status"></div>
+                </div>
+                <div class="text-area-container">
+                    <label for="ai-response" data-i18n="correctedTextLabel">Corrected Text & Explanation:</label>
+                    <textarea id="ai-response" rows="10" readonly data-i18n-placeholder="correctedTextPlaceholder" placeholder="Correction will appear here..."></textarea>
+                </div>
+            </div>
+            <div class="diff-container">
+                <h3 data-i18n="diffTitle">Correction Differences:</h3>
+                <div id="diff-output" class="diff-output">
+                    <!-- Diff HTML will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Translation Section (Initially Hidden) -->
+        <section id="translation" class="tab-content">
+            <h2 data-i18n="translationTitle">Text Translation</h2>
+            <div class="translation-container">
+                <div class="text-area-container">
+                    <label for="translate-input" data-i18n="translateInputLabel">Text to Translate:</label>
+                    <textarea id="translate-input" rows="8" data-i18n-placeholder="translateInputPlaceholder" placeholder="Enter text to translate..."></textarea>
+                </div>
+                 <div class="controls-container">
+                    <label for="target-language" data-i18n="translateToLabel">Translate to:</label>
+                    <select id="target-language">
+                        <!-- Languages will be populated by JS -->
+                        <option value="">Loading...</option>
+                    </select>
+                    <button id="translate-button" data-i18n="translateButtonLabel">Translate</button>
+                     <div id="translate-status-message" class="status"></div>
+                </div>
+                <div class="text-area-container">
+                    <label for="translate-output" data-i18n="translateOutputLabel">Translated Text:</label>
+                    <textarea id="translate-output" rows="8" readonly data-i18n-placeholder="translateOutputPlaceholder" placeholder="Translation will appear here..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Modal (Initially Hidden) -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2 data-i18n="settingsModalTitle">Settings</h2>
+                <label for="api-key" data-i18n="apiKeyLabel">LLM API Key:</label>
+                <input type="password" id="api-key" data-i18n-placeholder="apiKeyPlaceholder" placeholder="Enter your API Key">
+                <!-- TODO: Add dropdown for LLM Provider/Model -->
+                <button id="save-settings-button" data-i18n="saveSettingsButtonLabel">Save Settings</button>
+                <p class="privacy-note" data-i18n="privacyNote">Your API key is stored locally in your browser and is only sent directly to the LLM provider.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+     </footer>
+
+      <!-- Load htmldiff-js library from CDN -->
+      <script src="htmldiff.js"></script>
+      <script src="script.js"></script>
+  </body>
+ </html>
