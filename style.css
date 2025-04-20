@@ -57,9 +57,9 @@ body[data-theme="dark"] {
     --input-bg: #1c2128;
     --input-border: #444c56;
     --input-text: #c9d1d9;
-    --button-bg: #238636; /* GitHub green */
+    --button-bg: #0d6efd; /* Adjusted blue for dark mode */
     --button-text: white;
-    --button-hover-bg: #2ea043;
+    --button-hover-bg: #0b5ed7; /* Darker blue for hover */
     --status-text: #8b949e;
     --status-error-text: #f85149; /* GitHub red */
     --diff-bg: #1c2128;
@@ -97,7 +97,7 @@ body {
 header {
     background-color: var(--header-bg);
     color: var(--header-text);
-    padding: 1rem;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -272,7 +272,7 @@ textarea {
     border: 1px solid var(--diff-border);
     padding: 1rem;
     border-radius: 4px;
-    min-height: 100px;
+    min-height: 170px;
     white-space: pre-wrap; /* Preserve whitespace and wrap lines */
     line-height: 1.6;
     color: var(--text-color); /* Ensure text color matches theme */
