@@ -44,5 +44,21 @@
     "errorTranslationFailed": "Falha na tradução: {0}",
     "errorUnknownLanguage": "Não foi possível determinar o idioma com segurança ou resposta inválida recebida.",
     "errorDiffLibNotLoaded": "Erro: Biblioteca de diff não carregada.",
-    "settingsSubHeader": "Para usar este app com IAs gratuitas, você precisa de uma chave de API do OpenRouter. Você pode obter uma chave de API gratuita em https://openrouter.ai."
+    "settingsSubHeader": "Para usar este app com IAs gratuitas, você precisa de uma chave de API do OpenRouter. Você pode obter uma chave de API gratuita em https://openrouter.ai.",
+    "langArabic": "Árabe",
+    "langDutch": "Holandês",
+    "langEnglish": "Inglês",
+    "langFrench": "Francês",
+    "langGerman": "Alemão",
+    "langHindi": "Hindi",
+    "langItalian": "Italiano",
+    "langJapanese": "Japonês",
+    "langKorean": "Coreano",
+    "langPortugueseBrazilian": "Português (Brasil)",
+    "langPortugueseEuropean": "Português (Europeu)",
+    "langRussian": "Russo",
+    "langSpanish": "Espanhol",
+    "langSwedish": "Sueco",
+    "langTurkish": "Turco",
+    "langChinese": "Chinês"
 }

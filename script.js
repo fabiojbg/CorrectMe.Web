@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
              translations = await response.json();
              console.log(`Translations loaded for ${lang}`);
              applyTranslations();
+             populateLanguageDropdown(); // Repopulate dropdown AFTER applying translations
              // Store preference
              localStorage.setItem('correctme_lang', lang);
              currentLang = lang;
@@ -130,10 +131,10 @@ document.addEventListener('DOMContentLoaded', () => {
           // Determine initial language (check localStorage, default to 'en')
           const savedLang = localStorage.getItem('correctme_lang') || 'en';
           // Load translations for the initial language
-          await loadTranslations(savedLang); // Wait for translations before setting up UI
-          // Now setup listeners and populate dropdown (which might depend on translations later)
+          await loadTranslations(savedLang); // Wait for translations before setting up UI (this will now also populate dropdown)
+          // Now setup listeners
           setupEventListeners();
-          populateLanguageDropdown();
+          // populateLanguageDropdown(); // Moved inside loadTranslations
           console.log("App initialized.");
           // Check if HtmlDiff loaded after DOM ready and initialization
           console.log('Checking for HtmlDiff after DOM load:', typeof window.HtmlDiff);
@@ -306,36 +307,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
      // --- Language List & Dropdown ---
-     // Extracted from AppResources.resx: 0:Arabic;1:Dutch;2:*English;3:French;4:German;5:Hindi;6:Italian;7:Japanese;8:Korean;9:Portuguese (Brazilian);10:Portuguese (European);11:Russian;12:Spanish;13:Swedish;14:Turkish;15:Chinese
      const languagesToTranslate = [
-         { id: 0, name: 'Arabic', isDefault: false },
-         { id: 1, name: 'Dutch', isDefault: false },
-         { id: 2, name: 'English', isDefault: true }, // Marked with *
-         { id: 3, name: 'French', isDefault: false },
-         { id: 4, name: 'German', isDefault: false },
-         { id: 5, name: 'Hindi', isDefault: false },
-         { id: 6, name: 'Italian', isDefault: false },
-         { id: 7, name: 'Japanese', isDefault: false },
-         { id: 8, name: 'Korean', isDefault: false },
-         { id: 9, name: 'Portuguese (Brazilian)', isDefault: false },
-         { id: 10, name: 'Portuguese (European)', isDefault: false },
-         { id: 11, name: 'Russian', isDefault: false },
-         { id: 12, name: 'Spanish', isDefault: false },
-         { id: 13, name: 'Swedish', isDefault: false },
-         { id: 14, name: 'Turkish', isDefault: false },
-         { id: 15, name: 'Chinese', isDefault: false }
+         // Using keys for localization and apiName for the value sent to the API
+         { key: 'langArabic', apiName: 'Arabic', isDefault: false },
+         { key: 'langDutch', apiName: 'Dutch', isDefault: false },
+         { key: 'langEnglish', apiName: 'English', isDefault: true },
+         { key: 'langFrench', apiName: 'French', isDefault: false },
+         { key: 'langGerman', apiName: 'German', isDefault: false },
+         { key: 'langHindi', apiName: 'Hindi', isDefault: false },
+         { key: 'langItalian', apiName: 'Italian', isDefault: false },
+         { key: 'langJapanese', apiName: 'Japanese', isDefault: false },
+         { key: 'langKorean', apiName: 'Korean', isDefault: false },
+         { key: 'langPortugueseBrazilian', apiName: 'Portuguese (Brazilian)', isDefault: false },
+         { key: 'langPortugueseEuropean', apiName: 'Portuguese (European)', isDefault: false },
+         { key: 'langRussian', apiName: 'Russian', isDefault: false },
+         { key: 'langSpanish', apiName: 'Spanish', isDefault: false },
+         { key: 'langSwedish', apiName: 'Swedish', isDefault: false },
+         { key: 'langTurkish', apiName: 'Turkish', isDefault: false },
+         { key: 'langChinese', apiName: 'Chinese', isDefault: false }
      ];
 
      function populateLanguageDropdown() {
-         targetLanguageSelect.innerHTML = ''; // Clear loading/existing options
+         const currentSelectedValue = targetLanguageSelect.value; // Remember current selection
+         targetLanguageSelect.innerHTML = ''; // Clear existing options
          let defaultIndex = 0;
+         let currentSelectionFound = false;
+
          languagesToTranslate.forEach((lang, index) => {
              const option = document.createElement('option');
-             option.value = lang.name; // Use English name for API calls
-             option.textContent = lang.name; // Display name in dropdown
+             option.value = lang.apiName; // Use English name for API calls
+             option.textContent = getString(lang.key); // Use translated name for display
              targetLanguageSelect.appendChild(option);
              if (lang.isDefault) {
                  defaultIndex = index;
+             }
+             if (lang.apiName === currentSelectedValue) {
+                 currentSelectionFound = true;
              }
              // TODO: Consider loading saved preference from localStorage
          });
