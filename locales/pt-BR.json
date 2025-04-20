@@ -60,5 +60,6 @@
     "langSpanish": "Espanhol",
     "langSwedish": "Sueco",
     "langTurkish": "Turco",
-    "langChinese": "Chinês"
+    "langChinese": "Chinês",
+    "langUnknown": "Desconhecido"
 }
