@@ -272,6 +272,7 @@ textarea {
 }
 .diff-container h3 {
     color: var(--label-color); /* Use label color */
+    margin-bottom: 5px;
 }
 
 .diff-output {

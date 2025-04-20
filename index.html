@@ -28,7 +28,7 @@
 
         <!-- Correction Section -->
         <section id="correction" class="tab-content active">
-            <h2 data-i18n="correctionTitle">Text Correction</h2>
+            <!-- <h2 data-i18n="correctionTitle">Text Correction</h2> -->
             <div class="correction-container">
                 <div class="text-area-container">
                     <label for="user-input" data-i18n="yourTextLabel">Your Text:</label>
@@ -40,6 +40,7 @@
                 </div>
                 <div class="text-area-container">
                     <label for="ai-response" data-i18n="correctedTextLabel">Corrected Text & Explanation:</label>
+                    <div><img id="model-badge" alt="Selected Model" style="display: none; margin-bottom: 5px;"></div> <!-- Added Model Badge -->
                     <textarea id="ai-response" rows="10" readonly data-i18n-placeholder="correctedTextPlaceholder" placeholder="Correction will appear here..."></textarea>
                 </div>
             </div>
@@ -53,7 +54,7 @@
 
         <!-- Translation Section (Initially Hidden) -->
         <section id="translation" class="tab-content">
-            <h2 data-i18n="translationTitle">Text Translation</h2>
+            <!-- <h2 data-i18n="translationTitle">Text Translation</h2> -->
             <div class="translation-container">
                 <div class="text-area-container">
                     <label for="translate-input" data-i18n="translateInputLabel">Text to Translate:</label>

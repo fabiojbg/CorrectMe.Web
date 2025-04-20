@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusMessage = document.getElementById('status-message');
     const translateStatusMessage = document.getElementById('translate-status-message');
     const targetLanguageSelect = document.getElementById('target-language');
+    const modelBadge = document.getElementById('model-badge'); // Added for model badge
 
     // Containers & Modal
     const settingsModal = document.getElementById('settings-modal');
@@ -87,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
          if (translations.appTitle) {
              document.title = translations.appTitle;
          }
+         // Update model badge after applying other translations
+         updateModelBadge(selectedModel);
      }
 
      // Helper to get translated string, potentially with replacements
@@ -222,7 +225,29 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('No model selected in dropdown, keeping previous:', selectedModel);
         }
 
+        // Update the badge after saving settings
+        updateModelBadge(selectedModel);
+
         closeSettingsModal();
+    }
+
+    // --- Model Badge Update ---
+    function updateModelBadge(modelId) {
+        if (!modelId) {
+            modelBadge.style.display = 'none'; // Hide if no model selected
+            return;
+        }
+        try {
+            var encodedModelName = encodeURIComponent(modelId);
+            encodedModelName = encodedModelName.replaceAll("-", "--").replaceAll(" ", "_").replaceAll("_", "__");
+            const badgeUrl = `https://img.shields.io/badge/${getString('model')}:-${encodedModelName}-darkgreen?style=flat&cacheSeconds=600`;
+            modelBadge.src = badgeUrl;
+            modelBadge.alt = `Model: ${modelId}`;
+            modelBadge.style.display = 'block'; // Show the badge
+        } catch (error) {
+            console.error("Error updating model badge:", error);
+            modelBadge.style.display = 'none'; // Hide badge on error
+        }
     }
 
     function loadSettings() {
@@ -246,6 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
              // Optionally save the default back to localStorage
              // localStorage.setItem('correctme_selected_model', selectedModel);
          }
+         // Update the badge AFTER translations are applied
+         // updateModelBadge(selectedModel); // Moved to applyTranslations
       }
 
      // --- Model Fetching and Population ---
@@ -474,7 +501,6 @@ document.addEventListener('DOMContentLoaded', () => {
          const message = getString(messageKey, ...args);
          element.textContent = message;
          element.style.color = isError ? 'red' : '#555';
-         console.log(`Status (${section}): ${message}`); // Log the actual displayed message
       }
 
      // --- OpenAI API Interaction ---
@@ -715,7 +741,7 @@ Respond ONLY with the translated text. Do not include any introductory phrases o
            // Use HtmlDiff.execute to get the diff HTML directly
            try {
                 let diffHtml = htmldiff(original, corrected);
-                              
+
                // Set the innerHTML of the output container
                diffOutput.innerHTML = diffHtml;
                console.log('HtmlDiff generated and displayed.');
