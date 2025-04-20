@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
              console.log('Selected model loaded from localStorage:', selectedModel);
          } else {
              // Set a default free model if none is stored
-             selectedModel = "google/gemma-2b-it:free"; // Default free model
+             selectedModel = "deepseek/deepseek-chat-v3-0324:free"; // Default free model
              console.log('No selected model found, defaulting to:', selectedModel);
              // Optionally save the default back to localStorage
              // localStorage.setItem('correctme_selected_model', selectedModel);
