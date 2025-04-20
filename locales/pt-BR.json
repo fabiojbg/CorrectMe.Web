@@ -43,5 +43,6 @@
     "errorCorrectionFailed": "Falha na correção: {0}",
     "errorTranslationFailed": "Falha na tradução: {0}",
     "errorUnknownLanguage": "Não foi possível determinar o idioma com segurança ou resposta inválida recebida.",
-    "errorDiffLibNotLoaded": "Erro: Biblioteca de diff não carregada."
+    "errorDiffLibNotLoaded": "Erro: Biblioteca de diff não carregada.",
+    "settingsSubHeader": "Para usar este app com IAs gratuitas, você precisa de uma chave de API do OpenRouter. Você pode obter uma chave de API gratuita em https://openrouter.ai."
 }

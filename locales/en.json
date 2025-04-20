@@ -43,5 +43,6 @@
     "errorCorrectionFailed": "Correction failed: {0}",
     "errorTranslationFailed": "Translation failed: {0}",
     "errorUnknownLanguage": "Could not reliably determine the language or received invalid response.",
-    "errorDiffLibNotLoaded": "Error: Diff library not loaded."
+    "errorDiffLibNotLoaded": "Error: Diff library not loaded.",
+    "settingsSubHeader": "To use this app with free AIs, you need an API key from OpenRouter. You can get a free API key at https://openrouter.ai."
 }

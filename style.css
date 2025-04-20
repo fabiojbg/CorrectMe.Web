@@ -33,6 +33,7 @@
     --modal-close-text: #aaa;
     --modal-close-hover-text: black;
     --privacy-note-text: #666;
+    --subHeader-text: #666;
     --link-color: #007bff; /* Added for potential future links */
     --theme-toggle-bg: transparent; /* Added for theme toggle */
     --theme-toggle-text: var(--header-text); /* Added for theme toggle */
@@ -74,6 +75,7 @@ body[data-theme="dark"] {
     --modal-close-text: #aaa;
     --modal-close-hover-text: white;
     --privacy-note-text: #8b949e;
+    --subHeader-text: #8b949e;
     --link-color: #58a6ff; /* GitHub blue */
     --theme-toggle-bg: transparent;
     --theme-toggle-text: var(--header-text);
@@ -105,6 +107,11 @@ header {
 
 header h1 {
     margin: 0;
+}
+
+h2 {
+    margin-bottom: 5px;
+    margin-top: 0px;
 }
 
 .settings-area {
@@ -415,4 +422,11 @@ body[data-theme="dark"] .modal-content #model-select {
     font-size: 0.8rem;
     color: var(--privacy-note-text);
     margin-top: 1rem;
+}
+
+.subHeader {
+    font-size: 0.8rem;
+    color: var(--subHeader-text);
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
