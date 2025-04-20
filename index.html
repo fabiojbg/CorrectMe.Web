@@ -82,7 +82,11 @@
                 <h2 data-i18n="settingsModalTitle">Settings</h2>
                 <label for="api-key" data-i18n="apiKeyLabel">LLM API Key:</label>
                 <input type="password" id="api-key" data-i18n-placeholder="apiKeyPlaceholder" placeholder="Enter your API Key">
-                <!-- TODO: Add dropdown for LLM Provider/Model -->
+                <label for="model-select" data-i18n="modelSelectLabel">Select Model:</label>
+                <select id="model-select">
+                    <option value="" data-i18n="loadingModelsOption">Loading models...</option>
+                    <!-- Models will be populated by JS -->
+                </select>
                 <button id="save-settings-button" data-i18n="saveSettingsButtonLabel">Save Settings</button>
                 <p class="privacy-note" data-i18n="privacyNote">Your API key is stored locally in your browser and is only sent directly to the LLM provider.</p>
             </div>

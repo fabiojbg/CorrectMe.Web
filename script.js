@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const translateInput = document.getElementById('translate-input');
     const translateOutput = document.getElementById('translate-output');
     const apiKeyInput = document.getElementById('api-key');
+    const modelSelect = document.getElementById('model-select'); // Added
 
     // Display Areas
     const diffOutput = document.getElementById('diff-output');
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
      // --- State Variables ---
      let isRunning = false; // Prevent concurrent API calls
      let apiKey = ''; // Store API key in memory after loading
+     let selectedModel = ''; // Store selected model ID
      let currentLang = 'en'; // Default language
      let translations = {}; // Store loaded translation strings
      const themeStorageKey = 'correctme_theme'; // Key for localStorage
@@ -179,8 +181,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Settings Modal ---
-    function openSettingsModal() {
+    async function openSettingsModal() { // Made async
         apiKeyInput.value = apiKey || ''; // Show stored key on open
+        await fetchAndPopulateModels(); // Fetch models before showing
+        modelSelect.value = selectedModel || ''; // Pre-select stored model
         settingsModal.style.display = 'block';
     }
 
@@ -195,17 +199,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleSaveSettings() {
+        // Save API Key
         apiKey = apiKeyInput.value.trim();
         if (apiKey) {
             localStorage.setItem('correctme_apikey', apiKey);
             console.log('API Key saved.');
-            // Optionally provide user feedback (e.g., brief message)
         } else {
             localStorage.removeItem('correctme_apikey');
             console.log('API Key removed.');
         }
+
+        // Save Selected Model
+        const modelId = modelSelect.value;
+        if (modelId) {
+            selectedModel = modelId;
+            localStorage.setItem('correctme_selected_model', selectedModel);
+            console.log('Selected model saved:', selectedModel);
+        } else {
+            // Optionally handle case where no model is selected, maybe keep old one?
+            // For now, we just don't update if the value is empty.
+            console.log('No model selected in dropdown, keeping previous:', selectedModel);
+        }
+
         closeSettingsModal();
-        // TODO: Maybe update UI elements that depend on the key state
     }
 
     function loadSettings() {
@@ -213,12 +229,81 @@ document.addEventListener('DOMContentLoaded', () => {
         if (storedKey) {
             apiKey = storedKey;
             console.log('API Key loaded from localStorage.');
-        } else {
-            console.log('No API Key found in localStorage.');
-            // Optionally prompt user to enter key if needed immediately
+         } else {
+             console.log('No API Key found in localStorage.');
          }
-         // TODO: Load other settings like language preference (theme is handled separately now)
+
+         // Load selected model
+         const storedModel = localStorage.getItem('correctme_selected_model');
+         if (storedModel) {
+             selectedModel = storedModel;
+             console.log('Selected model loaded from localStorage:', selectedModel);
+         } else {
+             // Set a default free model if none is stored
+             selectedModel = "google/gemma-2b-it:free"; // Default free model
+             console.log('No selected model found, defaulting to:', selectedModel);
+             // Optionally save the default back to localStorage
+             // localStorage.setItem('correctme_selected_model', selectedModel);
+         }
       }
+
+     // --- Model Fetching and Population ---
+     async function fetchAndPopulateModels() {
+         const defaultOptionText = getString('loadingModelsOption') || 'Loading models...';
+         const errorOptionText = getString('errorFetchingModels') || 'Error loading models';
+         const selectModelOptionText = getString('selectModelOption') || '-- Select a Model --'; // Added
+
+         modelSelect.innerHTML = `<option value="">${defaultOptionText}</option>`; // Show loading message
+         modelSelect.disabled = true;
+
+         try {
+             const response = await fetch('https://openrouter.ai/api/v1/models');
+             if (!response.ok) {
+                 throw new Error(`HTTP error! status: ${response.status}`);
+             }
+             const data = await response.json();
+             const models = data.data || [];
+
+             // Filter for free models
+             const freeModels = models.filter(model => model.id.endsWith(':free'));
+
+             // Populate dropdown
+             modelSelect.innerHTML = `<option value="">${selectModelOptionText}</option>`; // Add a placeholder/instructional option
+             if (freeModels.length === 0) {
+                 modelSelect.innerHTML = `<option value="">${getString('noFreeModelsFound') || 'No free models found'}</option>`;
+                 // Keep disabled or handle appropriately
+                 return;
+             }
+
+             freeModels.sort((a, b) => a.id.localeCompare(b.id)); // Sort alphabetically by ID
+
+             freeModels.forEach(model => {
+                 const option = document.createElement('option');
+                 option.value = model.id;
+                 // Display name if available and different from ID, otherwise ID
+                 option.textContent = (model.name && model.name !== model.id) ? `${model.name} (${model.id})` : model.id;
+                 modelSelect.appendChild(option);
+             });
+
+             // Restore previously selected value if it exists in the list
+             if (selectedModel && freeModels.some(m => m.id === selectedModel)) {
+                 modelSelect.value = selectedModel;
+             } else if (freeModels.length > 0) {
+                 // If previous selection invalid or none, maybe select the first one? Or leave placeholder?
+                 // Let's leave the placeholder selected for now. User must choose.
+                 modelSelect.value = "";
+             }
+
+
+         } catch (error) {
+             console.error('Error fetching or processing models:', error);
+             modelSelect.innerHTML = `<option value="">${errorOptionText}</option>`;
+             // Keep disabled or allow retry? For now, just show error.
+         } finally {
+             modelSelect.disabled = false; // Re-enable dropdown
+         }
+     }
+
 
      // --- Language List & Dropdown ---
      // Extracted from AppResources.resx: 0:Arabic;1:Dutch;2:*English;3:French;4:German;5:Hindi;6:Italian;7:Japanese;8:Korean;9:Portuguese (Brazilian);10:Portuguese (European);11:Russian;12:Spanish;13:Swedish;14:Turkish;15:Chinese
@@ -262,13 +347,18 @@ document.addEventListener('DOMContentLoaded', () => {
      async function handleCorrectClick() {
         if (isRunning) {
             console.log('Operation already in progress.');
-            return;
-        }
-        if (!apiKey) {
-            updateStatus('errorApiKeyNotSet', true, 'correction');
-            openSettingsModal();
-            return;
-        }
+             return;
+         }
+         if (!apiKey) {
+             updateStatus('errorApiKeyNotSet', true, 'correction');
+             openSettingsModal(); // Prompt to enter API key
+             return;
+         }
+         if (!selectedModel) {
+             updateStatus('errorModelNotSelected', true, 'correction');
+             openSettingsModal(); // Prompt to select model
+             return;
+         }
 
         const text = userInput.value.trim();
         if (!text) {
@@ -313,11 +403,16 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleTranslateClick() {
         if (isRunning) {
             console.log('Operation already in progress.');
-            return;
-        }
+             return;
+         }
          if (!apiKey) {
             updateStatus('errorApiKeyNotSet', true, 'translation');
-            openSettingsModal();
+            openSettingsModal(); // Prompt to enter API key
+            return;
+        }
+        if (!selectedModel) {
+            updateStatus('errorModelNotSelected', true, 'translation');
+            openSettingsModal(); // Prompt to select model
             return;
         }
 
@@ -378,13 +473,12 @@ document.addEventListener('DOMContentLoaded', () => {
                  method: 'POST',
                  headers: {
                      'Content-Type': 'application/json',
-                     'Authorization': `Bearer ${apiKey}`
-                 },
-                 body: JSON.stringify({
-                     model: "deepseek/deepseek-chat-v3-0324:free", // Or allow selection later
-                     messages: messages,
-                     stream: stream,
-                     //provider: {order: ["Chutes"]}
+                      'Authorization': `Bearer ${apiKey}`
+                  },
+                  body: JSON.stringify({
+                      model: selectedModel, // Use the selected model variable
+                      messages: messages,
+                      stream: stream,
                  })
              });
 
