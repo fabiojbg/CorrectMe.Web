@@ -1,16 +1,102 @@
+:root {
+    /* Light Theme (Default) */
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --header-bg: #333;
+    --header-text: white;
+    --footer-bg: #333;
+    --footer-text: white;
+    --tab-border: #ccc;
+    --tab-bg: #eee;
+    --tab-active-bg: white;
+    --tab-active-border: #ccc;
+    --tab-content-bg: white;
+    --tab-content-border: #ccc;
+    --label-color: #333; /* Updated from implicit */
+    --input-bg: white;
+    --input-border: #ccc;
+    --input-text: #333; /* Updated from implicit */
+    --button-bg: #007bff;
+    --button-text: white;
+    --button-hover-bg: #0056b3;
+    --status-text: #555;
+    --status-error-text: red;
+    --diff-bg: #fff;
+    --diff-border: #ccc;
+    --diff-ins-bg: #d4edda;
+    --diff-ins-text: #155724;
+    --diff-del-bg: #f8d7da;
+    --diff-del-text: #721c24;
+    --modal-overlay-bg: rgba(0,0,0,0.4);
+    --modal-content-bg: #fefefe;
+    --modal-border: #888;
+    --modal-close-text: #aaa;
+    --modal-close-hover-text: black;
+    --privacy-note-text: #666;
+    --link-color: #007bff; /* Added for potential future links */
+    --theme-toggle-bg: transparent; /* Added for theme toggle */
+    --theme-toggle-text: var(--header-text); /* Added for theme toggle */
+    --theme-toggle-hover-bg: rgba(255, 255, 255, 0.1); /* Added for theme toggle */
+}
+
+body[data-theme="dark"] {
+    /* Dark Theme Overrides */
+    --bg-color: #22272e;
+    --text-color: #c9d1d9;
+    --header-bg: #1c2128;
+    --header-text: #c9d1d9;
+    --footer-bg: #1c2128;
+    --footer-text: #c9d1d9;
+    --tab-border: #444c56;
+    --tab-bg: #2d333b;
+    --tab-active-bg: #22272e;
+    --tab-active-border: #444c56;
+    --tab-content-bg: #22272e;
+    --tab-content-border: #444c56;
+    --label-color: #c9d1d9;
+    --input-bg: #1c2128;
+    --input-border: #444c56;
+    --input-text: #c9d1d9;
+    --button-bg: #238636; /* GitHub green */
+    --button-text: white;
+    --button-hover-bg: #2ea043;
+    --status-text: #8b949e;
+    --status-error-text: #f85149; /* GitHub red */
+    --diff-bg: #1c2128;
+    --diff-border: #444c56;
+    --diff-ins-bg: rgba(46, 160, 67, 0.15); /* GitHub green subtle */
+    --diff-ins-text: #3fb950;
+    --diff-del-bg: rgba(248, 81, 73, 0.15); /* GitHub red subtle */
+    --diff-del-text: #f85149;
+    --modal-overlay-bg: rgba(0,0,0,0.6);
+    --modal-content-bg: #2d333b;
+    --modal-border: #555;
+    --modal-close-text: #aaa;
+    --modal-close-hover-text: white;
+    --privacy-note-text: #8b949e;
+    --link-color: #58a6ff; /* GitHub blue */
+    --theme-toggle-bg: transparent;
+    --theme-toggle-text: var(--header-text);
+    --theme-toggle-hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Base Styles using Variables --- */
+
 body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
 }
 
 header {
-    background-color: #333;
-    color: white;
+    background-color: var(--header-bg);
+    color: var(--header-text);
     padding: 1rem;
     display: flex;
     justify-content: space-between;
@@ -21,6 +107,38 @@ header h1 {
     margin: 0;
 }
 
+.settings-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between items */
+}
+
+.language-switcher button {
+    background: none;
+    border: none;
+    color: var(--header-text);
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+}
+.language-switcher button:hover {
+    text-decoration: underline;
+}
+
+#theme-toggle-button {
+    background: var(--theme-toggle-bg);
+    border: none;
+    color: var(--theme-toggle-text);
+    cursor: pointer;
+    font-size: 1.5rem; /* Make icon larger */
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    line-height: 1; /* Adjust line height for icon */
+}
+#theme-toggle-button:hover {
+    background: var(--theme-toggle-hover-bg);
+}
+
+
 main {
     flex-grow: 1;
     padding: 1rem;
@@ -30,16 +148,16 @@ main {
 }
 
 footer {
-    background-color: #333;
-    color: white;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
     text-align: center;
     padding: 0.5rem;
     margin-top: auto;
 }
 
 /* Tabs */
-.tabs {    
-    border-bottom: 1px solid #ccc;
+.tabs {
+    border-bottom: 1px solid var(--tab-border);
 }
 
 .tab-button {
@@ -47,15 +165,16 @@ footer {
     cursor: pointer;
     border: 1px solid transparent;
     border-bottom: none;
-    background-color: #eee;
+    background-color: var(--tab-bg);
+    color: var(--text-color); /* Use main text color */
     margin-right: 5px;
     border-radius: 5px 5px 0 0;
 }
 
 .tab-button.active {
-    background-color: white;
-    border-color: #ccc;
-    border-bottom: 1px solid white; /* Cover the main border */
+    background-color: var(--tab-active-bg);
+    border-color: var(--tab-active-border);
+    border-bottom: 1px solid var(--tab-active-bg); /* Cover the main border */
     position: relative;
     bottom: -1px;
 }
@@ -63,9 +182,9 @@ footer {
 .tab-content {
     display: none; /* Hidden by default */
     padding: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--tab-content-border);
     border-top: none;
-    background-color: white;
+    background-color: var(--tab-content-bg);
 }
 
 .tab-content.active {
@@ -89,13 +208,16 @@ footer {
 .text-area-container label {
     margin-bottom: 0.5rem;
     font-weight: bold;
+    color: var(--label-color);
 }
 
 textarea {
     width: 100%;
     box-sizing: border-box; /* Include padding and border in element's total width and height */
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--input-text);
     border-radius: 4px;
     font-size: 1rem;
     resize: vertical; /* Allow vertical resizing */
@@ -112,8 +234,8 @@ textarea {
 #correct-button, #translate-button, #settings-button, #save-settings-button {
     padding: 0.8rem 1.5rem;
     cursor: pointer;
-    background-color: #007bff;
-    color: white;
+    background-color: var(--button-bg);
+    color: var(--button-text);
     border: none;
     border-radius: 4px;
     font-size: 1rem;
@@ -121,41 +243,52 @@ textarea {
 }
 
 #correct-button:hover, #translate-button:hover, #settings-button:hover, #save-settings-button:hover {
-    background-color: #0056b3;
+    background-color: var(--button-hover-bg);
 }
 
 .status {
     font-size: 0.9rem;
-    color: #555;
+    color: var(--status-text);
     min-height: 1.2em; /* Reserve space for messages */
 }
+/* Style for error status messages */
+.status[style*="color: red"], /* Target inline style */
+.status.error /* Or add an error class via JS */
+{
+    color: var(--status-error-text);
+}
+
 
 /* Diff View */
 .diff-container {
     margin-top: 1.5rem;
 }
+.diff-container h3 {
+    color: var(--label-color); /* Use label color */
+}
 
 .diff-output {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--diff-bg);
+    border: 1px solid var(--diff-border);
     padding: 1rem;
     border-radius: 4px;
     min-height: 100px;
     white-space: pre-wrap; /* Preserve whitespace and wrap lines */
     line-height: 1.6;
+    color: var(--text-color); /* Ensure text color matches theme */
 }
 
 .diff-output ins {
-    background-color: #d4edda; /* Light green */
-    color: #155724; /* Dark green */
+    background-color: var(--diff-ins-bg);
+    color: var(--diff-ins-text);
     text-decoration: none;
     padding: 0.1em 0;
 }
 
 .diff-output del {
-    color: #721c24; /* Dark red */
-    background-color: #f8d7da; /* Light red */
-    text-decoration: line-through;
+    color: var(--diff-del-text);
+    background-color: var(--diff-del-bg);
+    text-decoration: line-through; /* Keep line-through */
     padding: 0.1em 0;
 }
 
@@ -164,6 +297,9 @@ textarea {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     gap: 1rem;
+}
+.translation-container h2 {
+    color: var(--label-color);
 }
 
 .controls-container {
@@ -174,12 +310,15 @@ textarea {
 
 .controls-container label {
     font-weight: bold;
+    color: var(--label-color);
 }
 
 #target-language {
     padding: 0.5rem;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--input-text);
 }
 
 /* Settings Modal */
@@ -192,14 +331,15 @@ textarea {
     width: 100%;
     height: 100%;
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: var(--modal-overlay-bg);
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--modal-content-bg);
+    color: var(--text-color); /* Ensure modal text uses theme color */
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--modal-border);
     width: 80%; /* Could be more or less, depending on screen size */
     max-width: 500px;
     border-radius: 5px;
@@ -207,7 +347,7 @@ textarea {
 }
 
 .close-button {
-    color: #aaa;
+    color: var(--modal-close-text);
     position: absolute;
     top: 10px;
     right: 20px;
@@ -217,27 +357,34 @@ textarea {
 
 .close-button:hover,
 .close-button:focus {
-    color: black;
+    color: var(--modal-close-hover-text);
     text-decoration: none;
     cursor: pointer;
+}
+
+.modal-content h2 {
+    color: var(--label-color); /* Use label color for heading */
 }
 
 .modal-content label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: bold;
+    color: var(--label-color);
 }
 
 .modal-content input[type="password"] {
     width: calc(100% - 22px); /* Adjust for padding/border */
     padding: 10px;
     margin-bottom: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--input-text);
     border-radius: 4px;
 }
 
 .privacy-note {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--privacy-note-text);
     margin-top: 1rem;
 }

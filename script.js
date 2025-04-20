@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const translateButton = document.getElementById('translate-button');
     const settingsButton = document.getElementById('settings-button');
     const saveSettingsButton = document.getElementById('save-settings-button');
+    const themeToggleButton = document.getElementById('theme-toggle-button'); // Added
     const modalCloseButton = document.querySelector('.close-button');
     const tabButtons = document.querySelectorAll('.tab-button');
 
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
      let apiKey = ''; // Store API key in memory after loading
      let currentLang = 'en'; // Default language
      let translations = {}; // Store loaded translation strings
+     const themeStorageKey = 'correctme_theme'; // Key for localStorage
 
      // --- Localization ---
      async function loadTranslations(lang = 'en') {
@@ -98,10 +100,31 @@ document.addEventListener('DOMContentLoaded', () => {
      }
 
 
+      // --- Theme Handling ---
+      function applyTheme(theme) {
+          document.body.dataset.theme = theme;
+          themeToggleButton.textContent = theme === 'dark' ? '☀️' : '🌙'; // Update icon
+          localStorage.setItem(themeStorageKey, theme);
+          console.log(`Theme applied: ${theme}`);
+      }
+
+      function initializeTheme() {
+          const savedTheme = localStorage.getItem(themeStorageKey) || 'light'; // Default to light
+          applyTheme(savedTheme);
+      }
+
+      function handleThemeToggle() {
+          const currentTheme = document.body.dataset.theme;
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          applyTheme(newTheme);
+      }
+
       // --- Initialization ---
       async function initializeApp() {
           // Load settings first (like API key)
           loadSettings();
+          // Apply theme early
+          initializeTheme();
           // Determine initial language (check localStorage, default to 'en')
           const savedLang = localStorage.getItem('correctme_lang') || 'en';
           // Load translations for the initial language
@@ -123,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
          settingsButton.addEventListener('click', openSettingsModal);
          modalCloseButton.addEventListener('click', closeSettingsModal);
          saveSettingsButton.addEventListener('click', handleSaveSettings);
+         themeToggleButton.addEventListener('click', handleThemeToggle); // Added listener
          window.addEventListener('click', handleOutsideModalClick); // Close modal if clicked outside
          tabButtons.forEach(button => {
              button.addEventListener('click', handleTabClick);
@@ -193,8 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('No API Key found in localStorage.');
             // Optionally prompt user to enter key if needed immediately
          }
-         // TODO: Load other settings like language preference
-     }
+         // TODO: Load other settings like language preference (theme is handled separately now)
+      }
 
      // --- Language List & Dropdown ---
      // Extracted from AppResources.resx: 0:Arabic;1:Dutch;2:*English;3:French;4:German;5:Hindi;6:Italian;7:Japanese;8:Korean;9:Portuguese (Brazilian);10:Portuguese (European);11:Russian;12:Spanish;13:Swedish;14:Turkish;15:Chinese

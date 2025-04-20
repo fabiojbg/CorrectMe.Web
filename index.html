@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- Default lang, will be updated by JS -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="appTitle">CorrectMe Web</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="light"> <!-- Default theme, managed by JS -->
     <header>
         <h1 data-i18n="appTitle">CorrectMe Web</h1>
         <!-- Placeholder for settings/language switch -->
@@ -15,6 +15,7 @@
              <div class="language-switcher">
                  <button id="lang-en">EN</button> | <button id="lang-pt-br">PT-BR</button>
              </div>
+             <button id="theme-toggle-button" aria-label="Toggle theme">🌙</button> <!-- Theme Toggle Button -->
          </div>
      </header>
 
