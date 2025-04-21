@@ -499,3 +499,54 @@ body[data-theme="dark"] .modal-content #model-select {
     margin-top: 0px;
     margin-bottom: 20px;
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .correction-container {
+        flex-direction: column; /* Stack text areas vertically */
+        align-items: stretch; /* Stretch items to full width */
+    }
+
+    .button-container {
+        padding-top: 1rem; /* Reduce top padding */
+        align-items: stretch; /* Make button full width */
+        margin-top: 1rem; /* Add space above button */
+    }
+
+    #correct-button, #translate-button {
+        width: 100%; /* Make buttons take full width */
+    }
+
+    /* Adjust header for smaller screens if needed */
+    header {
+        flex-direction: column;
+        height: auto; /* Allow header height to adjust */
+        padding: 0.5rem 1rem; /* Adjust padding */
+    }
+
+    #app-logo {
+        height: 60px; /* Smaller logo */
+        margin-bottom: 0.5rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem; /* Smaller title */
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .settings-area {
+        justify-content: center; /* Center settings */
+        width: 100%;
+    }
+
+    main {
+        width: 100%; /* Use full width */
+        padding: 0.5rem; /* Reduce padding */
+        margin: 0.5rem 0; /* Adjust margin */
+    }
+
+    .tab-content {
+        padding: 0.5rem; /* Reduce padding */
+    }
+}
