@@ -1,6 +1,16 @@
 # CorrectMe Web
 
-This is a web application for AI-powered text correction and translation. This app uses free models from OpenRouter, and all you have to do is get an OpenRouter API key, configure it in the settings, and choose a free model.
+<div align="center" style="text-align: center;">
+ <img alt="AI Text Corrector" src="https://img.shields.io/badge/AI-Text Corrector-blue?style=flat" />&nbsp;
+ <img alt="AI Text Translator" src="https://img.shields.io/badge/AI-Text Translator-blue?style=flat" />&nbsp;
+ <a href="https://openrouter.ai" target="_blank"><img alt="OpenRouter" src="https://img.shields.io/badge/OpenRouter-AI-blue?style=flat" /></a><br>
+<img alt="Download" src="https://img.shields.io/badge/Buy_me_a_beer-👍  😊  👍-yellow?style=flat" /></a>
+</div>
+
+This is a web application for AI-powered **text correction** and **translation**, based on my Windows desktop application at [CorrectMe](https://github.com/fabiojbg/Correct-Me). 
+This app uses free models from [OpenRouter](https://openrouter.ai), and all you have to do is get an OpenRouter API key, configure it in the settings, and choose a free model.
+
+![Sample](images/AppSample.png)
 
 ## Features
 
