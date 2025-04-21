@@ -99,9 +99,9 @@ body {
 header {
     background-color: var(--header-bg);
     color: var(--header-text);
-    padding: 0; /* Remove padding to allow video full bleed */
+    padding: 0 1rem; /* Add horizontal padding back */
     display: flex;
-    /* justify-content: space-between; */ /* Remove this to allow centering */
+    justify-content: space-between; /* Push logo/title left, settings right */
     align-items: center;
     position: relative; /* Needed for absolute positioning of content */
     overflow: hidden; /* Hide video overflow */
@@ -120,6 +120,13 @@ header {
     object-fit: cover; /* Cover the area, cropping if needed */
 }
 
+#app-logo {
+    height: 100px; /* Adjust height as needed (increased by 75%) */
+    margin-right: 1rem; /* Space between logo and title */
+    position: relative; /* Ensure it's above the video */
+    z-index: 1;
+}
+
 header h1, .settings-area {
     position: relative; /* Bring content above video */
     z-index: 1;
@@ -129,9 +136,9 @@ header h1, .settings-area {
 
 header h1 {
     margin: 0;
-    flex-grow: 1; /* Allow h1 to take space */
-    text-align: center; /* Center the title text */
-    padding-left: 1rem; /* Add some padding */
+    /* flex-grow: 1; Remove flex-grow to prevent pushing settings too far */
+    /* text-align: center; Remove center alignment */
+    padding-left: 0; /* Remove previous padding */
 }
 
 h2 {
@@ -145,9 +152,7 @@ h2 {
     gap: 1rem; /* Space between items */
 }
 
-.settings-area {
-    padding-right: 1rem; /* Add padding to the right */
-}
+/* .settings-area padding is handled by header padding now */
 
 .language-switcher button {
     background: none;
