@@ -87,6 +87,13 @@ body[data-theme="dark"] {
 body {
     font-family: sans-serif;
     margin: 0;
+    /* Background Image Styles */
+    background-image: url('images/background.png');
+    background-size: cover; /* Scale the image to cover the entire element */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-attachment: fixed; /* Keep the background fixed during scroll */
+    /* Existing Styles */
     padding: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
