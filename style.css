@@ -10,7 +10,7 @@
     --tab-bg: #eee;
     --tab-active-bg: white;
     --tab-active-border: #ccc;
-    --tab-content-bg: white;
+    --tab-content-bg: rgba(255, 255, 255, 0.95); /* Added transparency */
     --tab-content-border: #ccc;
     --label-color: #333; /* Updated from implicit */
     --input-bg: white;
@@ -52,7 +52,7 @@ body[data-theme="dark"] {
     --tab-bg: #2d333b;
     --tab-active-bg: #22272e;
     --tab-active-border: #444c56;
-    --tab-content-bg: #22272e;
+    --tab-content-bg: rgba(34, 39, 46, 0.95); /* Added transparency (dark) */
     --tab-content-border: #444c56;
     --label-color: #c9d1d9;
     --input-bg: #1c2128;
@@ -219,11 +219,19 @@ footer {
     color: var(--text-color); /* Use main text color */
     margin-right: 5px;
     border-radius: 5px 5px 0 0;
+    transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
 }
+
+/* Add hover effect for inactive tabs */
+.tab-button:not(.active):hover {
+    background-color: color-mix(in srgb, var(--tab-bg) 85%, var(--text-color) 15%); /* Slightly darken/adjust tab background */
+}
+
 
 .tab-button.active {
     background-color: var(--tab-active-bg);
     border-color: var(--tab-active-border);
+    border-bottom: 2px solid var(--button-bg); /* Thicker, colored bottom border */
     border-bottom: 1px solid var(--tab-active-bg); /* Cover the main border */
     position: relative;
     bottom: -1px;
@@ -235,6 +243,8 @@ footer {
     border: 1px solid var(--tab-content-border);
     border-top: none;
     background-color: var(--tab-content-bg);
+    border-radius: 0 8px 8px 8px; /* Rounded corners, skipping top-left */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .tab-content.active {
@@ -271,6 +281,14 @@ textarea {
     border-radius: 4px;
     font-size: 1rem;
     resize: vertical; /* Allow vertical resizing */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth focus transition */
+}
+
+/* Enhance focus state for textareas */
+textarea:focus {
+    outline: none; /* Remove default outline */
+    border-color: var(--button-bg); /* Use button color for focus border */
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--button-bg) 25%, transparent); /* Add a subtle glow */
 }
 
 .button-container {
@@ -290,10 +308,17 @@ textarea {
     border-radius: 4px;
     font-size: 1rem;
     margin-bottom: 0.5rem; /* Space below button */
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* Smooth transitions */
 }
 
 #correct-button:hover, #translate-button:hover, #settings-button:hover, #save-settings-button:hover {
     background-color: var(--button-hover-bg);
+}
+
+/* Add active state for buttons */
+#correct-button:active, #translate-button:active, #settings-button:active, #save-settings-button:active {
+    transform: scale(0.98); /* Slightly shrink button on click */
+    background-color: color-mix(in srgb, var(--button-bg) 85%, black 15%); /* Darken button slightly more */
 }
 
 .status {
