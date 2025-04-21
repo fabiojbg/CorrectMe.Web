@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Containers & Modal
     const settingsModal = document.getElementById('settings-modal');
     const tabContents = document.querySelectorAll('.tab-content');
+    const headerVideo = document.getElementById('header-video'); // Added for video control
 
      // --- State Variables ---
      let isRunning = false; // Prevent concurrent API calls
@@ -137,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
           await loadTranslations(savedLang); // Wait for translations before setting up UI (this will now also populate dropdown)
           // Now setup listeners
           setupEventListeners();
+          setupVideoPlayback(); // Add call to setup video
           // populateLanguageDropdown(); // Moved inside loadTranslations
           console.log("App initialized.");
           // Check if HtmlDiff loaded after DOM ready and initialization

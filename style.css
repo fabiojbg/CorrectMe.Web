@@ -99,14 +99,39 @@ body {
 header {
     background-color: var(--header-bg);
     color: var(--header-text);
-    padding: 10px;
+    padding: 0; /* Remove padding to allow video full bleed */
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */ /* Remove this to allow centering */
     align-items: center;
+    position: relative; /* Needed for absolute positioning of content */
+    overflow: hidden; /* Hide video overflow */
+    height: 150px; /* Example height, adjust as needed */
+}
+
+#header-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: 100%; /* Make video fill header height */
+    min-width: 100%; /* Ensure video covers width */
+    transform: translate(-50%, -50%);
+    z-index: 0; /* Place video behind content */
+    object-fit: cover; /* Cover the area, cropping if needed */
+}
+
+header h1, .settings-area {
+    position: relative; /* Bring content above video */
+    z-index: 1;
+    color: white; /* Ensure text is visible over video */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Add shadow for readability */
 }
 
 header h1 {
     margin: 0;
+    flex-grow: 1; /* Allow h1 to take space */
+    text-align: center; /* Center the title text */
+    padding-left: 1rem; /* Add some padding */
 }
 
 h2 {
@@ -120,12 +145,17 @@ h2 {
     gap: 1rem; /* Space between items */
 }
 
+.settings-area {
+    padding-right: 1rem; /* Add padding to the right */
+}
+
 .language-switcher button {
     background: none;
     border: none;
-    color: var(--header-text);
+    color: white; /* Ensure button text is visible */
     cursor: pointer;
     padding: 0.2rem 0.4rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Add shadow */
 }
 .language-switcher button:hover {
     text-decoration: underline;
@@ -134,9 +164,10 @@ h2 {
 #theme-toggle-button {
     background: var(--theme-toggle-bg);
     border: none;
-    color: var(--theme-toggle-text);
+    color: white; /* Ensure icon is visible */
     cursor: pointer;
     font-size: 1.5rem; /* Make icon larger */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Add shadow */
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     line-height: 1; /* Adjust line height for icon */
