@@ -188,6 +188,23 @@ h2 {
     background: var(--theme-toggle-hover-bg);
 }
 
+/* Style for the new video play/pause button */
+#video-play-pause-button {
+    background: var(--theme-toggle-bg); /* Same background as theme toggle */
+    border: none;
+    color: white; /* Ensure icon is visible */
+    cursor: pointer;
+    font-size: 1.5rem; /* Match theme toggle size */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Match theme toggle shadow */
+    padding: 0.2rem 0.5rem; /* Match theme toggle padding */
+    border-radius: 4px; /* Match theme toggle radius */
+    line-height: 1; /* Match theme toggle line height */
+}
+
+#video-play-pause-button:hover {
+    background: var(--theme-toggle-hover-bg); /* Same hover as theme toggle */
+}
+
 
 main {
     flex-grow: 1;

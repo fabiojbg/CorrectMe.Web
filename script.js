@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('settings-button');
     const saveSettingsButton = document.getElementById('save-settings-button');
     const themeToggleButton = document.getElementById('theme-toggle-button'); // Added
+    const videoPlayPauseButton = document.getElementById('video-play-pause-button'); // Added for video control
     const modalCloseButton = document.querySelector('.close-button');
     const tabButtons = document.querySelectorAll('.tab-button');
 
@@ -124,6 +125,29 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentTheme = document.body.dataset.theme;
           const newTheme = currentTheme === 'light' ? 'dark' : 'light';
           applyTheme(newTheme);
+      }
+
+      // --- Video Playback Control ---
+      function setupVideoPlayback() {
+          // Check if elements exist before adding listener
+          if (!headerVideo || !videoPlayPauseButton) {
+              console.warn("Video or play/pause button element not found. Cannot set up playback control.");
+              return;
+          }
+
+          // Set initial button state based on video properties (it autoplays)
+          videoPlayPauseButton.textContent = '⏸️'; // Pause symbol indicates video is playing
+
+          videoPlayPauseButton.addEventListener('click', () => {
+              if (headerVideo.paused) {
+                  headerVideo.play();
+                  videoPlayPauseButton.textContent = '⏸️'; // Show pause symbol when playing
+              } else {
+                  headerVideo.pause();
+                  videoPlayPauseButton.textContent = '▶️'; // Show play symbol when paused
+              }
+          });
+          console.log("Video playback control setup complete."); // Added console log
       }
 
       // --- Initialization ---
