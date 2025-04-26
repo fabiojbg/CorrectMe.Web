@@ -582,3 +582,25 @@ body[data-theme="dark"] .modal-content #model-select {
         padding: 0.5rem; /* Reduce padding */
     }
 }
+
+/* GitHub Corner Link */
+.github-corner-link {
+    position: fixed;   /* Fix position relative to the viewport */
+    bottom: 20px;      /* Distance from the bottom */
+    right: 20px;       /* Distance from the right */
+    z-index: 1000;     /* Ensure it stays on top of other elements */
+    display: block;    /* Treat as a block for positioning */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+}
+
+.github-corner-link img {
+    height: 50px;      /* Set the desired height (adjust if needed) */
+    width: auto;       /* Maintain aspect ratio */
+    display: block;    /* Remove potential extra space below the image */
+    border-radius: 50%; /* Optional: Make the image circular */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: Add a subtle shadow */
+}
+
+.github-corner-link:hover {
+    transform: scale(1.1); /* Slightly enlarge the link on hover */
+}
