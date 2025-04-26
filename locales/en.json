@@ -18,7 +18,7 @@
     "translateOutputLabel": "Translated Text:",
     "translateOutputPlaceholder": "Translation will appear here...",
     "settingsModalTitle": "Settings",
-    "apiKeyLabel": "LLM API Key:",
+    "apiKeyLabel": "OpenRouter API Key:",
     "apiKeyPlaceholder": "Enter your API Key",
     "saveSettingsButtonLabel": "Save Settings",
     "privacyNote": "Your API key is stored locally in your browser and is only sent directly to the LLM provider.",

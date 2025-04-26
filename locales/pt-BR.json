@@ -18,7 +18,7 @@
     "translateOutputLabel": "Texto Traduzido:",
     "translateOutputPlaceholder": "A tradução aparecerá aqui...",
     "settingsModalTitle": "Configurações",
-    "apiKeyLabel": "Chave da API LLM:",
+    "apiKeyLabel": "Chave de API do OpenRouter:",
     "apiKeyPlaceholder": "Digite sua Chave de API",
     "saveSettingsButtonLabel": "Salvar Configurações",
     "privacyNote": "Sua chave de API é armazenada localmente no seu navegador e enviada apenas diretamente para o provedor LLM.",
