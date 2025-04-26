@@ -505,6 +505,33 @@ body[data-theme="dark"] .modal-content #model-select {
     margin-bottom: 20px;
 }
 
+/* Styles for the buttons container in the modal */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between; /* Space out buttons */
+    align-items: center; /* Align items vertically */
+    margin-top: 1rem; /* Add space above the buttons */
+    gap: 1rem; /* Add gap between buttons if needed */
+}
+
+/* Style the donate button link/image */
+.donate-button-link {
+    display: inline-block; /* Allow setting height/width if needed */
+    line-height: 0; /* Remove extra space below image */
+}
+
+.donate-button-img {
+    height: 25px; /* Match the approximate height of the Save button */
+    vertical-align: middle; /* Align image nicely with text button */
+    border-radius: 4px; /* Match button border radius */
+    transition: opacity 0.2s ease-in-out; /* Smooth hover effect */
+}
+
+.donate-button-img:hover {
+    opacity: 0.85; /* Slightly fade on hover */
+}
+
+
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
     .correction-container {
