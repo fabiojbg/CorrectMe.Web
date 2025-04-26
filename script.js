@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsButton = document.getElementById('settings-button');
     const saveSettingsButton = document.getElementById('save-settings-button');
     const themeToggleButton = document.getElementById('theme-toggle-button'); // Added
-    const videoPlayPauseButton = document.getElementById('video-play-pause-button'); // Added for video control
     const modalCloseButton = document.querySelector('.close-button');
     const tabButtons = document.querySelectorAll('.tab-button');
 
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Containers & Modal
     const settingsModal = document.getElementById('settings-modal');
     const tabContents = document.querySelectorAll('.tab-content');
-    const headerVideo = document.getElementById('header-video'); // Added for video control
 
      // --- State Variables ---
      let isRunning = false; // Prevent concurrent API calls
@@ -126,30 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const newTheme = currentTheme === 'light' ? 'dark' : 'light';
           applyTheme(newTheme);
       }
-
-      // --- Video Playback Control ---
-      function setupVideoPlayback() {
-          // Check if elements exist before adding listener
-          if (!headerVideo || !videoPlayPauseButton) {
-              console.warn("Video or play/pause button element not found. Cannot set up playback control.");
-              return;
-          }
-
-          // Set initial button state based on video properties (it autoplays)
-          videoPlayPauseButton.textContent = '⏸️'; // Pause symbol indicates video is playing
-
-          videoPlayPauseButton.addEventListener('click', () => {
-              if (headerVideo.paused) {
-                  headerVideo.play();
-                  videoPlayPauseButton.textContent = '⏸️'; // Show pause symbol when playing
-              } else {
-                  headerVideo.pause();
-                  videoPlayPauseButton.textContent = '▶️'; // Show play symbol when paused
-              }
-          });
-          console.log("Video playback control setup complete."); // Added console log
-      }
-
       // --- Initialization ---
       async function initializeApp() {
           // Load settings first (like API key)
@@ -162,8 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
           await loadTranslations(savedLang); // Wait for translations before setting up UI (this will now also populate dropdown)
           // Now setup listeners
           setupEventListeners();
-          setupVideoPlayback(); // Add call to setup video
-          // populateLanguageDropdown(); // Moved inside loadTranslations
           console.log("App initialized.");
           // Check if HtmlDiff loaded after DOM ready and initialization
           console.log('Checking for HtmlDiff after DOM load:', typeof window.HtmlDiff);
@@ -171,29 +143,36 @@ document.addEventListener('DOMContentLoaded', () => {
       initializeApp(); // Run the initialization sequence
 
 
-       // --- Event Listener Setup ---
-      function setupEventListeners() {
-         correctButton.addEventListener('click', handleCorrectClick);
-         translateButton.addEventListener('click', handleTranslateClick);
-         settingsButton.addEventListener('click', openSettingsModal);
-         modalCloseButton.addEventListener('click', closeSettingsModal);
-         saveSettingsButton.addEventListener('click', handleSaveSettings);
-         themeToggleButton.addEventListener('click', handleThemeToggle); // Added listener
-         window.addEventListener('click', handleOutsideModalClick); // Close modal if clicked outside
-         tabButtons.forEach(button => {
-             button.addEventListener('click', handleTabClick);
-          });
+     // --- Event Listener Setup ---
+    function setupEventListeners() {
+        correctButton.addEventListener('click', handleCorrectClick);
+        translateButton.addEventListener('click', handleTranslateClick);
+        settingsButton.addEventListener('click', openSettingsModal);
+        modalCloseButton.addEventListener('click', closeSettingsModal);
+        saveSettingsButton.addEventListener('click', handleSaveSettings);
+        themeToggleButton.addEventListener('click', handleThemeToggle); // Added listener
+        window.addEventListener('click', handleOutsideModalClick); // Close modal if clicked outside
+        tabButtons.forEach(button => {
+            button.addEventListener('click', handleTabClick);
+         });
 
-         // Language Switcher Buttons (using if checks)
-         const langEnButton = document.getElementById('lang-en');
-         const langPtBrButton = document.getElementById('lang-pt-br');
-         if (langEnButton) {
-             langEnButton.addEventListener('click', () => loadTranslations('en'));
-         }
-         if (langPtBrButton) {
-             langPtBrButton.addEventListener('click', () => loadTranslations('pt-BR'));
-         }
-     }
+        // Language Switcher Buttons (using if checks)
+        const langEnButton = document.getElementById('lang-en');
+        const langPtBrButton = document.getElementById('lang-pt-br');
+        if (langEnButton) {
+            langEnButton.addEventListener('click', () => loadTranslations('en'));
+        }
+        if (langPtBrButton) {
+            langPtBrButton.addEventListener('click', () => loadTranslations('pt-BR'));
+        }
+
+        // Model badge click handler
+        const modelBadge = document.getElementById('model-badge');
+        if (modelBadge) {
+            modelBadge.addEventListener('click', openSettingsModal);
+            modelBadge.style.cursor = 'pointer'; // Add pointer cursor to indicate clickable
+        }
+    }
 
       // --- Tab Handling ---
       function handleTabClick(event) {
