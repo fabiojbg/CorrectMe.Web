@@ -7,9 +7,9 @@
 <img alt="Download" src="https://img.shields.io/badge/Buy_me_a_beer-👍  😊  👍-yellow?style=flat" /></a>
 </div>
 
-This is a free, AI-powered tool for **text correction** and **translation**.
-You can experiment with it on https://correctme.botelho.cc
-This app uses free models from [OpenRouter](https://openrouter.ai). All you have to do is get an OpenRouter API key, configure it in the settings, and choose a free model.  
+This is a free, AI-powered tool for **text correction** and **translation**.<br>
+You can experiment with it on https://correctme.botelho.cc<br>
+The app uses free models from [OpenRouter](https://openrouter.ai). All you have to do is get an OpenRouter API key, configure it in the settings, and choose a free model.  
 <span style='font-size:small'>(This app is a web version of my [CorrectMe](https://github.com/fabiojbg/Correct-Me) Windows application)</span>
 
 
