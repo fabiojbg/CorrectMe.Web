@@ -1,9 +1,12 @@
 # Project Explanation
 This is a simple website built with html and vanilla javascript, as an AI-powered tool for **text correction** and **translation**.
 
+
 # Project Guidelines
 
-- This file must be updated whenever needed
+- You must always constantly verify if this file '.clinerules' must be updated and do it
+- Read the README.md file to know more about the project before plan anything.
+- You must always constantly verify if the README.md must be updated and do it
 - Use Context7 MCP Tool, if available, to always gather latest documentation/knowledge about a library
 - Use Tavily, Fetch or Firecrawl MCP Tools, if available, to search/scrape web pages whenever necessary
 
