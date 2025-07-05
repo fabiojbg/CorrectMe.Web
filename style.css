@@ -105,6 +105,8 @@ body {
 
 label{
     font-family: sans-serif;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 header {
@@ -231,6 +233,7 @@ footer {
     margin-right: 5px;
     border-radius: 5px 5px 0 0;
     transition: background-color 0.2s ease-in-out; /* Smooth hover transition */
+    font-size: large;
 }
 
 /* Add hover effect for inactive tabs */
@@ -293,6 +296,7 @@ textarea {
     font-size: 1rem;
     resize: vertical; /* Allow vertical resizing */
     transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth focus transition */
+    height: calc(100vh / 4); /* Set height to 1/3 of viewport height */
 }
 
 /* Enhance focus state for textareas */
@@ -363,6 +367,8 @@ textarea:focus {
     white-space: pre-wrap; /* Preserve whitespace and wrap lines */
     line-height: 1.6;
     color: var(--text-color); /* Ensure text color matches theme */
+    height: calc(100vh / 4); /* Set height to 1/3 of viewport height */
+    margin-top:10px
 }
 
 .diff-output ins {
