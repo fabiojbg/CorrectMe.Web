@@ -506,6 +506,7 @@ textarea:focus {
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflow text */
     text-overflow: ellipsis; /* Show ellipsis for overflow */
+    font-size: small;
 }
 
 .model-option:hover, .model-option.selected {

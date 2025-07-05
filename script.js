@@ -335,11 +335,21 @@ document.addEventListener('DOMContentLoaded', () => {
      }
 
      function filterModels() {
-         const searchTerm = modelSearchInput.value.toLowerCase();
-         const filtered = allModels.filter(model =>
-             (model.name && model.name.toLowerCase().includes(searchTerm)) ||
-             model.id.toLowerCase().includes(searchTerm)
-         );
+         const searchTerm = modelSearchInput.value.toLowerCase().trim();
+         let filtered = [];
+
+         if (searchTerm === '') {
+             filtered = allModels; // Show all models if search term is empty
+         } else {
+             const searchWords = searchTerm.split(/\s+/).filter(word => word.length > 0); // Split by whitespace, remove empty strings
+
+             filtered = allModels.filter(model => {
+                 const modelText = ((model.name && model.name.toLowerCase()) || model.id.toLowerCase());
+                 // Check if all search words are present in the model's text
+                 return searchWords.every(word => modelText.includes(word));
+             });
+         }
+
          renderModelOptions(filtered);
          modelOptionsContainer.style.display = 'block'; // Show options when filtering
      }
