@@ -1,0 +1,39 @@
+# Project Explanation
+This is a simple website built with html and vanilla javascript, as an AI-powered tool for **text correction** and **translation**.
+
+# Project Guidelines
+
+- This file must be updated whenever needed
+- Use Context7 MCP Tool, if available, to always gather latest documentation/knowledge about a library
+- Use Tavily, Fetch or Firecrawl MCP Tools, if available, to search/scrape web pages whenever necessary
+
+
+## Project Structure
+
+- The project is structured to separate concerns and maintain a clean architecture.
+- You must maintain this structure updated in case of any change in it or in files responsibilities
+
+```
+/CorrectMe.Web/
+├── .clinerules             # Configuration file for Cline, defining project-specific rules.
+├── favicon.ico             
+├── htmldiff.js             # JavaScript library for visualizing text differences.
+├── index.html              # Main HTML file for the web application.
+├── LICENSE                 # Project license information.
+├── README.md               # Project overview, features, and setup instructions.
+├── script.js               # Main JavaScript file containing application logic.
+├── style.css               # Main CSS file for styling the web application.
+├── images/                 # Directory for various image assets.
+│   ├── app_logo_2.png      
+│   ├── AppSample.png       
+│   ├── background.png      
+│   ├── banner.png          
+│   ├── btn_donate.png      
+│   ├── CorrectMe_Logo.png  
+│   └── github-mascot.png   
+├── locales/                # Directory for localization files.
+│   ├── en.json             
+│   └── pt-BR.json          
+└── media/                  # Directory for media files.
+    └── header.mp4          # Video file for the header.
+```
