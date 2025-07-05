@@ -89,11 +89,13 @@
                 <p class="subHeader" data-i18n="settingsSubHeader">To use this app and its available you need an API key from OpenRouter. You can get a free API key at https://openrouter.ai.</p>
                 <label for="api-key" data-i18n="apiKeyLabel">LLM API Key:</label>
                 <input type="password" id="api-key" data-i18n-placeholder="apiKeyPlaceholder" placeholder="Enter your API Key">
-                <label for="model-select" data-i18n="modelSelectLabel">Select Model:</label>
-                <select id="model-select">
-                    <option value="" data-i18n="loadingModelsOption">Loading models...</option>
-                    <!-- Models will be populated by JS -->
-                </select>
+                <label for="model-search-input" data-i18n="modelSelectLabel">Select Model:</label>
+                <div class="model-select-container">
+                    <input type="text" id="model-search-input" data-i18n-placeholder="modelSearchPlaceholder" placeholder="Search models..." autocomplete="off">
+                    <div id="model-options-container" class="model-options-container">
+                        <!-- Models will be populated by JS -->
+                    </div>
+                </div>
                 <div class="modal-buttons">
                     <button id="save-settings-button" data-i18n="saveSettingsButtonLabel">Save Settings</button>
                     <a href="https://www.paypal.com/donate/?business=G47L9N4UW8C2C&no_recurring=1&item_name=Thank+you+%21%21%21&currency_code=USD" target="_blank" class="donate-button-link">

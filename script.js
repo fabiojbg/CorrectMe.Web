@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const translateInput = document.getElementById('translate-input');
     const translateOutput = document.getElementById('translate-output');
     const apiKeyInput = document.getElementById('api-key');
-    const modelSelect = document.getElementById('model-select'); // Added
+    const modelSearchInput = document.getElementById('model-search-input'); // New: Search input
+    const modelOptionsContainer = document.getElementById('model-options-container'); // New: Options container
 
     // Display Areas
     const diffOutput = document.getElementById('diff-output');
@@ -32,9 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
      let isRunning = false; // Prevent concurrent API calls
      let apiKey = ''; // Store API key in memory after loading
      let selectedModel = ''; // Store selected model ID
+     let allModels = []; // Store all fetched models
      let currentLang = 'en'; // Default language
      let translations = {}; // Store loaded translation strings
      const themeStorageKey = 'correctme_theme'; // Key for localStorage
+     let activeModelOptionIndex = -1; // For keyboard navigation
 
      // --- Localization ---
      async function loadTranslations(lang = 'en') {
@@ -192,13 +195,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Settings Modal ---
     async function openSettingsModal() { // Made async
         apiKeyInput.value = apiKey || ''; // Show stored key on open
-        await fetchAndPopulateModels(); // Fetch models before showing
-        modelSelect.value = selectedModel || ''; // Pre-select stored model
+        await fetchAndPopulateModels(); // Fetch models and populate the options container
+        // Set the input value to the currently selected model's display name
+        const currentModel = allModels.find(m => m.id === selectedModel);
+        modelSearchInput.value = currentModel ? (currentModel.name || currentModel.id) : '';
+        modelOptionsContainer.style.display = 'none'; // Ensure options are hidden on open
         settingsModal.style.display = 'block';
     }
 
     function closeSettingsModal() {
         settingsModal.style.display = 'none';
+        modelOptionsContainer.style.display = 'none'; // Hide options when modal closes
     }
 
     function handleOutsideModalClick(event) {
@@ -219,15 +226,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Save Selected Model
-        const modelId = modelSelect.value;
-        if (modelId) {
-            selectedModel = modelId;
+        // The selectedModel is already updated by handleModelSelection
+        if (selectedModel) {
             localStorage.setItem('correctme_selected_model', selectedModel);
             console.log('Selected model saved:', selectedModel);
         } else {
-            // Optionally handle case where no model is selected, maybe keep old one?
-            // For now, we just don't update if the value is empty.
-            console.log('No model selected in dropdown, keeping previous:', selectedModel);
+            localStorage.removeItem('correctme_selected_model'); // Clear if no model is selected
+            console.log('No model selected, clearing previous selection.');
         }
 
         // Update the badge after saving settings
@@ -284,10 +289,10 @@ document.addEventListener('DOMContentLoaded', () => {
      async function fetchAndPopulateModels() {
          const defaultOptionText = getString('loadingModelsOption') || 'Loading models...';
          const errorOptionText = getString('errorFetchingModels') || 'Error loading models';
-         const selectModelOptionText = getString('selectModelOption') || '-- Select a Model --'; // Added
+         const noModelsFoundText = getString('noFreeModelsFound') || 'No free models found';
 
-         modelSelect.innerHTML = `<option value="">${defaultOptionText}</option>`; // Show loading message
-         modelSelect.disabled = true;
+         modelOptionsContainer.innerHTML = `<div class="model-option">${defaultOptionText}</div>`;
+         modelSearchInput.disabled = true;
 
          try {
              const response = await fetch('https://openrouter.ai/api/v1/models');
@@ -297,44 +302,124 @@ document.addEventListener('DOMContentLoaded', () => {
              const data = await response.json();
              const models = data.data || [];
 
-             // Filter for free models
-             const freeModels = models.filter(model => model.id.endsWith(':free'));
+             // Filter for free models and store them
+             allModels = models.filter(model => model.id.endsWith(':free'));
+             allModels.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id)); // Sort by name, then ID
 
-             // Populate dropdown
-             modelSelect.innerHTML = `<option value="">${selectModelOptionText}</option>`; // Add a placeholder/instructional option
-             if (freeModels.length === 0) {
-                 modelSelect.innerHTML = `<option value="">${getString('noFreeModelsFound') || 'No free models found'}</option>`;
-                 // Keep disabled or handle appropriately
+             if (allModels.length === 0) {
+                 modelOptionsContainer.innerHTML = `<div class="model-option">${noModelsFoundText}</div>`;
                  return;
              }
 
-             freeModels.sort((a, b) => a.id.localeCompare(b.id)); // Sort alphabetically by ID
-
-             freeModels.forEach(model => {
-                 const option = document.createElement('option');
-                 option.value = model.id;
-                 // Display name if available and different from ID, otherwise ID
-                 option.textContent = (model.name && model.name !== model.id) ? `${model.name} (${model.id})` : model.id;
-                 modelSelect.appendChild(option);
-             });
-
-             // Restore previously selected value if it exists in the list
-             if (selectedModel && freeModels.some(m => m.id === selectedModel)) {
-                 modelSelect.value = selectedModel;
-             } else if (freeModels.length > 0) {
-                 // If previous selection invalid or none, maybe select the first one? Or leave placeholder?
-                 // Let's leave the placeholder selected for now. User must choose.
-                 modelSelect.value = "";
-             }
-
+             renderModelOptions(allModels); // Initial render of all models
 
          } catch (error) {
              console.error('Error fetching or processing models:', error);
-             modelSelect.innerHTML = `<option value="">${errorOptionText}</option>`;
-             // Keep disabled or allow retry? For now, just show error.
+             modelOptionsContainer.innerHTML = `<div class="model-option">${errorOptionText}</div>`;
          } finally {
-             modelSelect.disabled = false; // Re-enable dropdown
+             modelSearchInput.disabled = false; // Re-enable input
          }
+     }
+
+     function renderModelOptions(modelsToRender) {
+         modelOptionsContainer.innerHTML = ''; // Clear previous options
+         if (modelsToRender.length === 0) {
+             modelOptionsContainer.innerHTML = `<div class="model-option">${getString('noFreeModelsFound') || 'No free models found'}</div>`;
+             return;
+         }
+
+         modelsToRender.forEach(model => {
+             const optionDiv = document.createElement('div');
+             optionDiv.classList.add('model-option');
+             optionDiv.dataset.modelId = model.id;
+             optionDiv.textContent = (model.name && model.name !== model.id) ? `${model.name} (${model.id})` : model.id;
+             modelOptionsContainer.appendChild(optionDiv);
+
+             optionDiv.addEventListener('click', () => handleModelSelection(model.id, optionDiv.textContent));
+         });
+         activeModelOptionIndex = -1; // Reset active index for keyboard navigation
+     }
+
+     function filterModels() {
+         const searchTerm = modelSearchInput.value.toLowerCase();
+         const filtered = allModels.filter(model =>
+             (model.name && model.name.toLowerCase().includes(searchTerm)) ||
+             model.id.toLowerCase().includes(searchTerm)
+         );
+         renderModelOptions(filtered);
+         modelOptionsContainer.style.display = 'block'; // Show options when filtering
+     }
+
+     function handleModelSelection(modelId, modelDisplayName) {
+         selectedModel = modelId;
+         modelSearchInput.value = modelDisplayName;
+         modelOptionsContainer.style.display = 'none'; // Hide options after selection
+         console.log('Model selected:', selectedModel);
+     }
+
+     // Add event listeners for the new model search input
+     modelSearchInput.addEventListener('input', filterModels);
+     modelSearchInput.addEventListener('focus', () => {
+         filterModels(); // Show all models or filtered if text exists
+         modelOptionsContainer.style.display = 'block';
+     });
+     modelSearchInput.addEventListener('blur', (event) => {
+         // Delay hiding to allow click event on options to fire
+         setTimeout(() => {
+             if (!modelOptionsContainer.contains(event.relatedTarget)) { // Check if focus moved outside container
+                 modelOptionsContainer.style.display = 'none';
+             }
+         }, 100);
+     });
+
+     // Keyboard navigation for model options
+     modelSearchInput.addEventListener('keydown', (event) => {
+         const options = Array.from(modelOptionsContainer.children);
+         if (options.length === 0) return;
+
+         if (event.key === 'ArrowDown') {
+             event.preventDefault();
+             activeModelOptionIndex = (activeModelOptionIndex + 1) % options.length;
+             highlightActiveOption(options);
+             options[activeModelOptionIndex].scrollIntoView({ block: 'nearest' });
+         } else if (event.key === 'ArrowUp') {
+             event.preventDefault();
+             activeModelOptionIndex = (activeModelOptionIndex - 1 + options.length) % options.length;
+             highlightActiveOption(options);
+             options[activeModelOptionIndex].scrollIntoView({ block: 'nearest' });
+         } else if (event.key === 'Enter') {
+             event.preventDefault();
+             if (activeModelOptionIndex !== -1) {
+                 options[activeModelOptionIndex].click(); // Simulate click on active option
+             } else {
+                 // If Enter is pressed without an active selection, and there's text in input,
+                 // try to find a direct match or select the first filtered item.
+                 const searchTerm = modelSearchInput.value.toLowerCase();
+                 const exactMatch = allModels.find(model =>
+                     (model.name && model.name.toLowerCase() === searchTerm) ||
+                     model.id.toLowerCase() === searchTerm
+                 );
+                 if (exactMatch) {
+                     handleModelSelection(exactMatch.id, (exactMatch.name || exactMatch.id));
+                 } else if (options.length > 0) {
+                     // If no exact match, but there are filtered options, select the first one
+                     options[0].click();
+                 }
+             }
+         } else if (event.key === 'Escape') {
+             modelOptionsContainer.style.display = 'none';
+             modelSearchInput.blur();
+         }
+     });
+
+     function highlightActiveOption(options) {
+         options.forEach((option, index) => {
+             if (index === activeModelOptionIndex) {
+                 option.classList.add('selected');
+             } else {
+                 option.classList.remove('selected');
+             }
+         });
      }
 
 
