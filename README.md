@@ -9,7 +9,7 @@
 
 This is a free, AI-powered tool for **text correction** and **translation**.<br>
 You can experiment with it on https://pages.botelho.cc/correctme<br>
-The app uses free models from [OpenRouter](https://openrouter.ai). All you have to do is get an OpenRouter API key, configure it in the settings, and choose a free model.  
+The app uses free models from [OpenRouter](https://openrouter.ai). All you have to do is get an OpenRouter API key, configure it in the settings, and choose any model.  For free models, search for 'free' in the searchable list.
 <span style='font-size:small'>(This app is a web version of my [CorrectMe](https://github.com/fabiojbg/Correct-Me) Windows application)</span>
 
 
