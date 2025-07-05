@@ -142,6 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.log("App initialized.");
           // Check if HtmlDiff loaded after DOM ready and initialization
           console.log('Checking for HtmlDiff after DOM load:', typeof window.HtmlDiff);
+
+          // Initialize floating languages
+          createFloatingLanguages();
       }
       initializeApp(); // Run the initialization sequence
 
@@ -858,6 +861,45 @@ Just respond with the corrected text followed by detailed explanations in ${uiLa
              .replace(/>/g, ">")  // Corrected greater than
              .replace(/"/g, "\"") // Corrected double quote
              .replace(/'/g, "&#039;"); // Keep single quote replacement
+     }
+
+     // --- Floating Languages ---
+     function createFloatingLanguages() {
+         const container = document.getElementById('floating-languages-container');
+         if (!container) {
+             console.error("Floating languages container not found.");
+             return;
+         }
+         container.innerHTML = ''; // Clear any existing elements
+
+         const languages = languagesToTranslate.map(lang => getString(lang.key)); // Get translated names
+
+         languages.forEach(langName => {
+             for (let i = 0; i < 2; i++) { // Create two instances of each language for more density
+                 const span = document.createElement('span');
+                 span.classList.add('floating-language');
+                 span.textContent = langName;
+
+                 // Random positioning
+                 const x = Math.random() * 100; // 0-100%
+                 const y = Math.random() * 100; // 0-100%
+                 span.style.left = `${x}vw`;
+                 span.style.top = `${y}vh`;
+
+                 // Random animation properties
+                 const delay = Math.random() * 10; // 0-10 seconds delay
+                 const duration = 10 + Math.random() * 10; // 10-20 seconds duration
+                 const translateX = (Math.random() - 0.5) * 200; // -100 to 100px
+                 const translateY = (Math.random() - 0.5) * 200; // -100 to 100px
+
+                 span.style.animationDelay = `${delay}s`;
+                 span.style.animationDuration = `${duration}s`;
+                 span.style.setProperty('--translate-x', `${translateX}px`);
+                 span.style.setProperty('--translate-y', `${translateY}px`);
+
+                 container.appendChild(span);
+             }
+         });
      }
 
 }); // End DOMContentLoaded
