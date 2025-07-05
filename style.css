@@ -112,44 +112,35 @@ label{
 header {
     background: linear-gradient(135deg, #1e90ff 0%, #00bfff 50%, #87cefa 100%);
     color: var(--header-text);
-    padding: 0 1rem; /* Add horizontal padding back */
+    padding: 0 1rem;
     display: flex;
-    justify-content: space-between; /* Push logo/title left, settings right */
+    justify-content: flex-start; 
     align-items: center;
-    position: relative; /* Needed for absolute positioning of content */
-    overflow: hidden; /* Hide overflow */
-    /*height: 200px; /* Example height, adjust as needed */
+    position: relative;
+    overflow: hidden;
+    width: calc(100% - 350px); 
+    margin: 0 auto;
+    height: 100px; 
 }
 
-
 .topo {
-    width: 98%;
-    float: center;
-    background: url('../imagens/banner.png');
-    background-size: cover;
-    background-position: center; /* Centraliza a imagem */
-    background-repeat: repeat; /* Não repete a imagem */
+    width: 100%; 
+    float: none; 
+    background: none; 
 }
 
 #app-logo {
-    height: 100px; /* Adjust height as needed (increased by 75%) */
-    margin-right: 1rem; /* Space between logo and title */
-    position: relative; /* Ensure it's above the video */
-    z-index: 1;
-}
-
-header h1 { /* Removed .settings-area from this rule */
-    position: relative; /* Bring content above video */
-    z-index: 1;
-    color: white; /* Ensure text is visible over video */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Add shadow for readability */
+    display: none; /* Hide the logo */
 }
 
 header h1 {
-    margin: 0;
-    /* flex-grow: 1; Remove flex-grow to prevent pushing settings too far */
-    /* text-align: center; Remove center alignment */
-    padding-left: 0; /* Remove previous padding */
+  font-family: "Merriweather", monospace;
+  font-size: 70px;
+  font-weight: 800;
+  background-image: radial-gradient(circle, #59dae2, #f6f4f7);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 h2 {
@@ -203,7 +194,7 @@ h2 {
 main {
     flex-grow: 1;
     padding: 1rem;
-    max-width: 1600px;
+    max-width: 1300px;
     margin: 1rem auto;
     width: 95%;
     position: relative; /* Ensure z-index works */
@@ -322,7 +313,6 @@ textarea:focus {
     border: none;
     border-radius: 4px;
     font-size: 1rem;
-    margin-bottom: 0.5rem; /* Space below button */
     transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* Smooth transitions */
 }
 

@@ -881,8 +881,8 @@ Just respond with the corrected text followed by detailed explanations in ${uiLa
                  span.textContent = langName;
 
                  // Random positioning
-                 const x = Math.random() * 100; // 0-100%
-                 const y = Math.random() * 100; // 0-100%
+                 const x = Math.random() * 100 ; // 0-100%
+                 const y = Math.random() * 85 + 15; // 0-100%
                  span.style.left = `${x}vw`;
                  span.style.top = `${y}vh`;
 

@@ -1,4 +1,4 @@
-# CorrectMe Web
+# Correct Me!
 
 <div align="center" style="text-align: center;">
  <img alt="AI Text Corrector" src="https://img.shields.io/badge/AI-Text Corrector-blue?style=flat" />&nbsp;
