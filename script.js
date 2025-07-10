@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const translateStatusMessage = document.getElementById('translate-status-message');
     const targetLanguageSelect = document.getElementById('target-language');
     const modelBadge = document.getElementById('model-badge'); // Added for model badge
+    const modelBadge2 = document.getElementById('model-badge2'); // Added for model badge in translation tab
 
     // Containers & Modal
     const settingsModal = document.getElementById('settings-modal');
@@ -178,6 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
             modelBadge.addEventListener('click', openSettingsModal);
             modelBadge.style.cursor = 'pointer'; // Add pointer cursor to indicate clickable
         }
+        const modelBadge2 = document.getElementById('model-badge2');
+        if (modelBadge2) {
+            modelBadge2.addEventListener('click', openSettingsModal);
+            modelBadge2.style.cursor = 'pointer'; // Add pointer cursor to indicate clickable
+        }
     }
 
       // --- Tab Handling ---
@@ -248,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateModelBadge(modelId) {
         if (!modelId) {
             modelBadge.style.display = 'none'; // Hide if no model selected
+            modelBadge2.style.display = 'none'; // Hide if no model selected
             return;
         }
         try {
@@ -257,9 +264,14 @@ document.addEventListener('DOMContentLoaded', () => {
             modelBadge.src = badgeUrl;
             modelBadge.alt = `Model: ${modelId}`;
             modelBadge.style.display = 'block'; // Show the badge
+
+            modelBadge2.src = badgeUrl;
+            modelBadge2.alt = `Model: ${modelId}`;
+            modelBadge2.style.display = 'block'; // Show the badge
         } catch (error) {
             console.error("Error updating model badge:", error);
             modelBadge.style.display = 'none'; // Hide badge on error
+            modelBadge2.style.display = 'none'; // Hide badge on error
         }
     }
 
