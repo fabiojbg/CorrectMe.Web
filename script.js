@@ -306,7 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
              const models = data.data || [];
 
              // Filter for free models and store them
-             allModels = models;
+             allModels = models.sort((a, b) => {
+                 const nameA = (a.name || a.id).toLowerCase();
+                 const nameB = (b.name || b.id).toLowerCase();
+                 return nameA.localeCompare(nameB);
+             });
 
              renderModelOptions(allModels); // Initial render of all models
 
@@ -367,7 +371,14 @@ document.addEventListener('DOMContentLoaded', () => {
      // Add event listeners for the new model search input
      modelSearchInput.addEventListener('input', filterModels);
      modelSearchInput.addEventListener('focus', () => {
-         filterModels(); // Show all models or filtered if text exists
+         // When the input gains focus, if it's empty or contains the currently selected model's name,
+         // display all models. Otherwise, filter based on the current input value.
+         const currentModelDisplayName = allModels.find(m => m.id === selectedModel)?.name || selectedModel;
+         if (modelSearchInput.value.trim() === '' || modelSearchInput.value.trim() === currentModelDisplayName) {
+             renderModelOptions(allModels); // Show all models initially
+         } else {
+             filterModels(); // If user has typed something else, filter based on that
+         }
          modelOptionsContainer.style.display = 'block';
      });
      modelSearchInput.addEventListener('blur', (event) => {
@@ -885,6 +896,7 @@ Just respond with the corrected text followed by detailed explanations in ${uiLa
                  const y = Math.random() * 85 + 15; // 0-100%
                  span.style.left = `${x}vw`;
                  span.style.top = `${y}vh`;
+                 span.style.fontFamily = 'Times New Roman';
 
                  // Random animation properties
                  const delay = Math.random() * 10; // 0-10 seconds delay
