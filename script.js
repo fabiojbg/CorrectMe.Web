@@ -402,6 +402,10 @@ document.addEventListener('DOMContentLoaded', () => {
          }, 100);
      });
 
+     modelSearchInput.addEventListener('click', () => {
+         modelSearchInput.select();
+     });
+
      // Keyboard navigation for model options
      modelSearchInput.addEventListener('keydown', (event) => {
          const options = Array.from(modelOptionsContainer.children);
